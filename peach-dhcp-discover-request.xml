@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://phed.org/2008/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://phed.org/2008/Peach /peach/peach.xsd">
+
+	<PythonPath path="c:/code/fuzzers/peach2" />
+	
+	<Import import="Peach" />
+	<Import from="Peach" import="logger" />
+	<Import from="Peach.Mutators" import="*" />
+	<Import from="Peach.Generators.dictionary" import="*" />
+	<Import from="Peach.Generators.data" import="*" />
+	<Import from="Peach.Generators.static" import="*" />
+	<Import from="Peach.Generators.block" import="*" />
+	<Import from="Peach.Generators.incrementor" import="*" />
+	<Import from="Peach.Generators.repeater" import="*" />
+	<Import from="Peach.Generators" import="*" />
+	<Import from="Peach.Transformers" import="*" />
+	<Import from="Peach.Fixups" import="*" />
+	<Import from="Peach.Publishers" import="*" />
+	<Import from="Peach.publisher" import="*" />
+	<Import from="Peach.MutateStrategies" import="*" />
+	
+	<Mutators>
+		<Mutator class="number.NumericalEdgeCaseMutator" />
+		<Mutator class="number.NumericalVarianceMutator" />
+		<Mutator class="number.FiniteRandomNumbersMutator" />
+		<Mutator class="blob.BlobMutator" />
+		<Mutator class="blob.BitFlipperMutator" />
+		<Mutator class="blob.DWORDSliderMutator" />
+		<!-- <Mutator class="datatree.DataTreeRemoveMutator" />
+		<Mutator class="datatree.DataTreeDuplicateMutator" />
+		<Mutator class="datatree.DataTreeSwapNearNodesMutator" /> -->
+		<Mutator class="array.ArrayVarianceMutator" />
+		<Mutator class="array.ArrayNumericalEdgeCasesMutator" />
+		<Mutator class="array.ArrayReverseOrderMutator" />
+		<Mutator class="array.ArrayRandomizeOrderMutator" />
+		<Mutator class="size.SizedVaranceMutator" />
+		<Mutator class="size.SizedNumericalEdgeCasesMutator" />
+		<!-- <Mutator class="string.StringMutator" /> -->
+		<Mutator class="string.XmlW3CMutator"/>
+		<Mutator class="string.PathMutator"/>
+		<Mutator class="string.HostnameMutator"/>
+		<Mutator class="string.FilenameMutator"/>
+		<Mutator class="string.StringCaseMutator" />
+		<!-- <Mutator class="string.UnicodeBomMutator" />
+		<Mutator class="string.UnicodeStringsMutator" />
+		<Mutator class="string.UnicodeBadUtf8Mutator" />
+		<Mutator class="string.UnicodeUtf8ThreeCharMutator" /> -->
+		<Mutator class="string.ValidValuesMutator" />
+	</Mutators>	
+	
+	<DataModel name="discover">
+		<Number name="bootp_type" size="8" valueType="hex" value="01" signed="false" />
+		<Number name="bootp_hw_type" size="8" valueType="hex" value="01" signed="false" />
+		<Number name="bootp_hw_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="bootp_hw_mac_addr" />
+		</Number>
+		<Number name="bootp_hops" size="8" valueType="hex" value="00" signed="false" />
+		<Number name="bootp_id" size="32" valueType="hex" value="d0a96d32" signed="false" />
+		<Number name="bootp_secs" size="16" valueType="hex" value="0000" signed="false" />
+		<Block name="bootp_flags">
+			<Flags name="bootp_flags" size="16">
+				<Flag name="bootp_flags_bc" position="0" size="1" />
+				<Flag name="bootp_flags_reserved" position="1" size="15" />
+			</Flags>
+		</Block>
+		<String name="bootp_ip_client" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_your" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_server" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_relay" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<Blob name="bootp_hw_mac_addr" valueType="hex" value="000c29db505e" />
+		<String name="bootp_hw_addr_padding" type="wchar" length="5" valueType="hex" value="00000000000000000000" />
+		<String name="bootp_server" type="wchar" length="32" valueType="hex" value="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		<String name="bootp_file" type="wchar" length="64" valueType="hex" value="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		<String name="bootp_cookie" value="99.130.83.99">
+			<Transformer class="encode.Ipv4StringToOctet" />
+		</String>
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="35" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="01" signed="false" />
+			<Number name="bootp_option_value" size="8" valueType="hex" value="01" signed="false" />
+		</Block>
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="32" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="04" signed="false" />
+			<Blob name="bootp_option_value" valueType="hex" value="c0a82583" />
+		</Block>
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="37" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="0d" signed="false" />
+			<Number  size="8" valueType="hex" value="01" signed="false" />
+			<Number  size="8" valueType="hex" value="1c" signed="false" />
+			<Number  size="8" valueType="hex" value="02" signed="false" />
+			<Number  size="8" valueType="hex" value="79" signed="false" />
+			<Number  size="8" valueType="hex" value="0f" signed="false" />
+			<Number  size="8" valueType="hex" value="06" signed="false" />
+			<Number  size="8" valueType="hex" value="0c" signed="false" />
+			<Number  size="8" valueType="hex" value="28" signed="false" />
+			<Number  size="8" valueType="hex" value="29" signed="false" />
+			<Number  size="8" valueType="hex" value="2a" signed="false" />
+			<Number  size="8" valueType="hex" value="1a" signed="false" />
+			<Number  size="8" valueType="hex" value="77" signed="false" />
+			<Number  size="8" valueType="hex" value="03" signed="false" />
+		</Block>
+		<Number  size="8" valueType="hex" value="ff" signed="false" />
+		<String  valueType="hex" value="0000000000000000000000000000000000000000000000000000000000000000000000" length="35" />
+	</DataModel>
+	
+	<DataModel name="request">
+		<Number name="bootp_type" size="8" valueType="hex" value="01" signed="false" />
+		<Number name="bootp_hw_type" size="8" valueType="hex" value="01" signed="false" />
+		<Number name="bootp_hw_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="bootp_hw_mac_addr" />
+		</Number>
+		<Number name="bootp_hops" size="8" valueType="hex" value="00" signed="false" />
+		<Number name="bootp_id" size="32" valueType="hex" value="d0a96d32" signed="false" />
+		<Number name="bootp_secs" size="16" valueType="hex" value="0000" signed="false" />
+		<Block name="bootp_flags">
+			<Flags name="bootp_flags" size="16">
+				<Flag name="bootp_flags_bc" position="0" size="1" />
+				<Flag name="bootp_flags_reserved" position="1" size="15" />
+			</Flags>
+		</Block>
+		<String name="bootp_ip_client" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_your" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_server" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_relay" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<Blob name="bootp_hw_mac_addr" valueType="hex" value="000c29db505e" />
+		<String name="bootp_hw_addr_padding" type="wchar" length="5" valueType="hex" value="00000000000000000000" />
+		<String name="bootp_server" type="wchar" length="32" valueType="hex" value="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		<String name="bootp_file" type="wchar" length="64" valueType="hex" value="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		<String name="bootp_cookie" value="99.130.83.99">
+			<Transformer class="encode.Ipv4StringToOctet" />
+		</String>
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="35" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="01" signed="false" />
+			<Number name="bootp_option_value" size="8" valueType="hex" value="03" signed="false" />
+		</Block>
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="36" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="04" signed="false" />
+			<Blob name="bootp_option_value" valueType="hex" value="c0a825fe" />
+		</Block>
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="32" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="04" signed="false" />
+			<Blob name="bootp_option_value" valueType="hex" value="c0a82583" />
+		</Block>
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="37" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="0d" signed="false" />
+			<Number  size="8" valueType="hex" value="01" signed="false" />
+			<Number  size="8" valueType="hex" value="1c" signed="false" />
+			<Number  size="8" valueType="hex" value="02" signed="false" />
+			<Number  size="8" valueType="hex" value="79" signed="false" />
+			<Number  size="8" valueType="hex" value="0f" signed="false" />
+			<Number  size="8" valueType="hex" value="06" signed="false" />
+			<Number  size="8" valueType="hex" value="0c" signed="false" />
+			<Number  size="8" valueType="hex" value="28" signed="false" />
+			<Number  size="8" valueType="hex" value="29" signed="false" />
+			<Number  size="8" valueType="hex" value="2a" signed="false" />
+			<Number  size="8" valueType="hex" value="1a" signed="false" />
+			<Number  size="8" valueType="hex" value="77" signed="false" />
+			<Number  size="8" valueType="hex" value="03" signed="false" />
+		</Block>
+		<Number  size="8" valueType="hex" value="ff" signed="false" />
+		<String  valueType="hex" value="0000000000000000000000000000000000000000000000000000000000" length="29" />
+	</DataModel>
+	
+	<DataModel name="query">
+		<Number name="bootp_hw_type" size="8" valueType="hex" value="01" signed="false" />
+		<Number name="bootp_hw_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="bootp_hw_mac_addr" />
+		</Number>
+		<Blob name="bootp_hw_mac_addr" valueType="hex" value="000c29db505e" />
+		<Number name="bootp_hops" size="8" valueType="hex" value="00" signed="false" />
+		<Number name="bootp_id" size="32" valueType="hex" value="d0a96d32" signed="false" />
+		<Number name="bootp_secs" size="16" valueType="hex" value="0000" signed="false" />
+		<Block name="bootp_flags">
+			<Flags name="bootp_flags" size="16">
+				<Flag name="bootp_flags_bc" position="0" size="1" />
+				<Flag name="bootp_flags_reserved" position="1" size="15" />
+			</Flags>
+		</Block>
+		<String name="bootp_ip_client" value="1.1.1.2">
+			<Transformer class="encode.Ipv4StringToOctet" />
+		</String>
+		<String name="bootp_ip_your" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_server" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_relay" value="10.10.39.14">
+			<Transformer class="encode.Ipv4StringToOctet" />
+		</String>
+		<String  type="wchar" length="8" valueType="hex" value="00000000000000000000000000000000" />
+		<String name="bootp_server" type="wchar" length="32" valueType="hex" value="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		<String name="bootp_file" type="wchar" length="64" valueType="hex" value="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		<String name="bootp_cookie" value="99.130.83.99">
+			<Transformer class="encode.Ipv4StringToOctet" />
+		</String>
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="37" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="04" signed="false" />
+			<Number  size="8" valueType="hex" value="33" signed="false" />
+			<Number  size="8" valueType="hex" value="36" signed="false" />
+			<Number  size="8" valueType="hex" value="3d" signed="false" />
+			<Number  size="8" valueType="hex" value="52" signed="false" />
+		</Block>
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="35" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="01" signed="false" />
+			<Blob name="bootp_option_value" valueType="hex" value="0a" />
+		</Block>
+		<Number  size="8" valueType="hex" value="ff" signed="false" />
+	</DataModel>
+	
+	<DataModel name="dhcpdiscover">
+		<Block ref="discover" />
+	</DataModel>
+	<DataModel name="dhcprequest">
+		<Block ref="request" />
+	</DataModel>
+	<DataModel name="dhcpquery">
+		<Block ref="query" />
+	</DataModel>
+	
+	<StateModel name="State" initialState="Initial">
+        <State name="Initial">
+                <Action type="output">
+                        <DataModel ref="dhcpdiscover" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="dhcprequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="dhcpquery" />
+                </Action>				
+        </State>
+	</StateModel>	
+	
+	<Test name="DHCPdown">
+		<StateModel ref="State"/>
+		<Publisher class="udp.Udp">
+			<Param name="Host" value="172.17.100.102" />
+			<Param name="Port" value="67" />
+		</Publisher>
+	</Test>
+	
+	<Run name="DefaultRun">
+		<Test ref="DHCPdown" />
+	</Run>
+	
+</Peach>

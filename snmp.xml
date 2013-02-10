@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://phed.org/2008/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://phed.org/2008/Peach /peach/peach.xsd">
+
+	<PythonPath path="c:/code/fuzzers/peach2" />
+	
+	<Import import="Peach" />
+	<Import from="Peach" import="logger" />
+	<Import from="Peach.Mutators" import="*" />
+	<Import from="Peach.Generators.dictionary" import="*" />
+	<Import from="Peach.Generators.data" import="*" />
+	<Import from="Peach.Generators.static" import="*" />
+	<Import from="Peach.Generators.block" import="*" />
+	<Import from="Peach.Generators.incrementor" import="*" />
+	<Import from="Peach.Generators.repeater" import="*" />
+	<Import from="Peach.Generators" import="*" />
+	<Import from="Peach.Transformers" import="*" />
+	<Import from="Peach.Fixups" import="*" />
+	<Import from="Peach.Publishers" import="*" />
+	<Import from="Peach.publisher" import="*" />
+	<Import from="Peach.MutateStrategies" import="*" />
+	
+	<Mutators>
+		<Mutator class="number.NumericalEdgeCaseMutator" />
+		<Mutator class="number.NumericalVarianceMutator" />
+		<Mutator class="number.FiniteRandomNumbersMutator" />
+		<Mutator class="blob.BlobMutator" />
+		<Mutator class="blob.BitFlipperMutator" />
+		<Mutator class="blob.DWORDSliderMutator" />
+		<Mutator class="datatree.DataTreeRemoveMutator" />
+		<Mutator class="datatree.DataTreeDuplicateMutator" />
+		<Mutator class="datatree.DataTreeSwapNearNodesMutator" />
+		<Mutator class="array.ArrayVarianceMutator" />
+		<Mutator class="array.ArrayNumericalEdgeCasesMutator" />
+		<Mutator class="array.ArrayReverseOrderMutator" />
+		<Mutator class="array.ArrayRandomizeOrderMutator" />
+		<Mutator class="size.SizedVaranceMutator" />
+		<Mutator class="size.SizedNumericalEdgeCasesMutator" />
+		<Mutator class="string.StringMutator" />
+		<Mutator class="string.XmlW3CMutator"/>
+		<Mutator class="string.PathMutator"/>
+		<Mutator class="string.HostnameMutator"/>
+		<Mutator class="string.FilenameMutator"/>
+		<Mutator class="string.StringCaseMutator" />
+		<Mutator class="string.UnicodeBomMutator" />
+		<Mutator class="string.UnicodeStringsMutator" />
+		<Mutator class="string.UnicodeBadUtf8Mutator" />
+		<Mutator class="string.UnicodeUtf8ThreeCharMutator" />
+		<Mutator class="string.ValidValuesMutator" />
+	</Mutators>	
+	
+	<DataModel name="requestv1">
+		<Blob name="snmp" valueType="hex" value="00000000" />
+		<Number name="snmp_version" size="8" valueType="hex" value="00" signed="false" />
+		<Blob name="snmp" valueType="hex" value="0000" />
+		<String name="snmp_community" valueType="hex" value="7075626c6963" />
+		<Block name="snmp_data">
+			<Blob name="snmp_data" valueType="hex" value="a138" />
+			<Block name="snmp_get_next_request">
+				<Blob name="snmp_get_next_request" valueType="hex" value="0000" />
+				<Number name="snmp_request_id" size="32" valueType="hex" value="2d789780" signed="false" endian="big" />
+				<Blob name="snmp_get_next_request" valueType="hex" value="0000" />
+				<Number name="snmp_error_status" size="8" valueType="hex" value="00" signed="false" />
+				<Blob name="snmp_get_next_request" valueType="hex" value="0000" />
+				<Number name="snmp_error_index" size="8" valueType="hex" value="00" signed="false" />
+				<Blob name="snmp_get_next_request" valueType="hex" value="0000" />
+				<Block name="snmp_variable_bindings">
+					<Block >
+						<Blob  valueType="hex" value="30280624" />
+						<Blob name="snmp_name" valueType="hex" value="2b06010201580104030102065f736e6d70645f6d7465547269676765724661696c757265" />
+					</Block>
+				</Block>
+			</Block>
+		</Block>
+	</DataModel>
+
+	<DataModel name="authv3">
+		<Blob name="snmp" valueType="hex" value="00000000" />
+		<Number name="snmp_msgVersion" size="8" valueType="hex" value="03" signed="false" />
+		<Block name="snmp_msgGlobalData">
+			<Blob name="snmp_msgGlobalData" valueType="hex" value="00000000" />
+			<Number name="snmp_msgID" size="32" valueType="hex" value="57ecacdd" signed="false" endian="big" />
+			<Blob name="snmp_msgGlobalData" valueType="hex" value="0000" />
+			<Blob name="snmp_msgMaxSize" valueType="hex" value="00ffe3" />
+			<Blob name="snmp_msgGlobalData" valueType="hex" value="0000" />
+			<Block name="snmp_msgFlags">
+				<Flags name="snmp_msgFlags" size="8">
+					<Flag name="snmp_v3_flags_report" position="5" size="1" />
+					<Flag name="snmp_v3_flags_crypt" position="6" size="1" />
+					<Flag name="snmp_v3_flags_auth" position="7" size="1" />
+				</Flags>
+			</Block>
+			<Blob name="snmp_msgGlobalData" valueType="hex" value="0000" />
+			<Number name="snmp_msgSecurityModel" size="8" valueType="hex" value="03" signed="false" />
+		</Block>
+		<Blob name="snmp" valueType="hex" value="000000000000" />
+		<Block name="snmp_msgAuthoritativeEngineID">
+			<Number name="snmp_engineid_conform" size="8" valueType="hex" value="1" signed="false" />
+			<Number name="snmp_engineid_enterprise" size="32" valueType="hex" value="80001f88" signed="false" endian="big" />
+			<Number name="snmp_engineid_format" size="8" valueType="hex" value="80" signed="false" />
+			<Blob  valueType="hex" value="cea5cf7cc042155100000000" />
+		</Block>
+		<Blob name="snmp" valueType="hex" value="0000" />
+		<Number name="snmp_msgAuthoritativeEngineBoots" size="8" valueType="hex" value="06" signed="false" />
+		<Blob name="snmp" valueType="hex" value="0000" />
+		<Number name="snmp_msgAuthoritativeEngineTime" size="16" valueType="hex" value="03c6" signed="true" endian="big" />
+		<Blob name="snmp" valueType="hex" value="0000" />
+		<String name="snmp_msgUserName" valueType="hex" value="726f6f74" />
+		<Blob name="snmp" valueType="hex" value="00000000" />
+		<Block name="snmp_msgData">
+			<Block name="snmp_plaintext">
+				<Blob name="snmp_plaintext" valueType="hex" value="00000000" />
+				<Block name="snmp_contextEngineID">
+					<Number name="snmp_engineid_conform" size="8" valueType="hex" value="1" signed="false" />
+					<Number name="snmp_engineid_enterprise" size="32" valueType="hex" value="80001f88" signed="false" endian="big" />
+					<Number name="snmp_engineid_format" size="8" valueType="hex" value="80" signed="false" />
+					<Blob  valueType="hex" value="cea5cf7cc042155100000000" />
+				</Block>
+				<Blob name="snmp_plaintext" valueType="hex" value="0000" />
+				<Block name="snmp_data">
+					<Blob name="snmp_data" valueType="hex" value="a119" />
+					<Block name="snmp_get_next_request">
+						<Blob name="snmp_get_next_request" valueType="hex" value="0000" />
+						<Number name="snmp_request_id" size="32" valueType="hex" value="7a4efcc5" signed="false" endian="big" />
+						<Blob name="snmp_get_next_request" valueType="hex" value="0000" />
+						<Number name="snmp_error_status" size="8" valueType="hex" value="00" signed="false" />
+						<Blob name="snmp_get_next_request" valueType="hex" value="0000" />
+						<Number name="snmp_error_index" size="8" valueType="hex" value="00" signed="false" />
+						<Blob name="snmp_get_next_request" valueType="hex" value="0000" />
+						<Block name="snmp_variable_bindings">
+							<Block >
+								<Blob  valueType="hex" value="30090605" />
+								<Blob name="snmp_name" valueType="hex" value="2b06010201" />
+							</Block>
+						</Block>
+					</Block>
+				</Block>
+			</Block>
+		</Block>
+	</DataModel>
+	
+	<DataModel name="snmpreq">
+		<Block ref="requestv1" />
+	</DataModel>
+	
+	<DataModel name="snmpauth">
+		<Block ref="authv3" />
+	</DataModel>	
+	
+	<StateModel name="State" initialState="Initial">
+        <State name="Initial">
+                <Action type="output">
+                        <DataModel ref="snmpreq" />
+                </Action>		
+                <Action type="output">
+                        <DataModel ref="snmpauth" />
+                </Action>				
+        </State>
+	</StateModel>	
+	
+	<Test name="SNMPdown">
+		<StateModel ref="State"/>
+		<Publisher class="udp.Udp">
+			<Param name="Host" value="172.17.100.102" />
+			<Param name="Port" value="161" />
+		</Publisher>
+	</Test>
+	
+	<Run name="DefaultRun">
+		<Test ref="SNMPdown" />
+	</Run>
+	
+</Peach>

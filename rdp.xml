@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Peach>
+    <PythonPath path="c:/code/fuzzers/peach2" />
+	<Import import="Peach" />
+	<Import from="Peach" import="logger" />
+	<Import from="Peach.Mutators" import="*" />
+	<Import from="Peach.Generators.dictionary" import="*" />
+	<Import from="Peach.Generators.data" import="*" />
+	<Import from="Peach.Generators.static" import="*" />
+	<Import from="Peach.Generators.block" import="*" />
+	<Import from="Peach.Generators.incrementor" import="*" />
+	<Import from="Peach.Generators.repeater" import="*" />
+	<Import from="Peach.Generators" import="*" />
+	<Import from="Peach.Transformers" import="*" />
+	<Import from="Peach.Fixups" import="*" />
+	<Import from="Peach.Publishers" import="*" />
+	<Import from="Peach.publisher" import="*" />
+	<Import from="Peach.MutateStrategies" import="*" />
+	<Mutators>
+		<Mutator class="number.NumericalEdgeCaseMutator" />
+		<Mutator class="number.NumericalVarianceMutator" />
+		<Mutator class="number.FiniteRandomNumbersMutator" />
+		
+		<Mutator class="blob.BlobMutator" />
+		<Mutator class="blob.BitFlipperMutator" />
+		<Mutator class="blob.DWORDSliderMutator" />
+		
+		<Mutator class="datatree.DataTreeRemoveMutator" />
+		<Mutator class="datatree.DataTreeDuplicateMutator" />
+		<Mutator class="datatree.DataTreeSwapNearNodesMutator" />
+		
+		<Mutator class="array.ArrayVarianceMutator" />
+		<Mutator class="array.ArrayNumericalEdgeCasesMutator" />
+		<Mutator class="array.ArrayReverseOrderMutator" />
+		<Mutator class="array.ArrayRandomizeOrderMutator" />
+		
+		<Mutator class="size.SizedVaranceMutator" />
+		<Mutator class="size.SizedNumericalEdgeCasesMutator" />
+		
+		<Mutator class="string.StringMutator" /> 
+		<Mutator class="string.XmlW3CMutator"/>
+		<Mutator class="string.PathMutator"/>
+		<Mutator class="string.HostnameMutator"/>
+		<Mutator class="string.FilenameMutator"/>
+		<Mutator class="string.StringCaseMutator" />
+		<Mutator class="string.UnicodeBomMutator" />
+		<Mutator class="string.UnicodeStringsMutator" />
+		<Mutator class="string.UnicodeBadUtf8Mutator" />
+		<Mutator class="string.UnicodeUtf8ThreeCharMutator" />
+		<Mutator class="string.ValidValuesMutator" />
+	</Mutators>
+    <DataModel name="HotFuzzDataModel_0">
+        <Block defaultValue="????" name="tpkt">
+            <Number name="tpkt_version" defaultValue="?" value="03" isToken="False" mutable="True" valueType="hex"/>
+            <Number name="tpkt_reserved" defaultValue="?" value="00" isToken="False" mutable="True" valueType="hex"/>
+            <Number name="tpkt_length" defaultValue="??" value="0013" isToken="False" mutable="True" valueType="hex"/>
+        </Block>
+        <Block defaultValue="??????????????" name="x224">
+            <Number name="x224_length" defaultValue="?" value="0e" isToken="False" mutable="True" valueType="hex"/>
+            <Number name="x224_code" defaultValue="" value="e0" isToken="False" mutable="True" valueType="hex"/>
+            <String name="DataModelElement_1" defaultValue="??" value="0000" isToken="True" mutable="True" valueType="hex"/>
+            <Number name="x224_src_ref" defaultValue="??" value="0000" isToken="False" mutable="True" valueType="hex"/>
+            <Number name="x224_class" defaultValue="?" value="00" isToken="False" mutable="True" valueType="hex"/>
+            <Block defaultValue="????????" name="x224_rdp_rt">
+                <String name="DataModelElement_2" defaultValue="?" value="01" isToken="False" mutable="True" valueType="hex"/>
+                <String name="DataModelElement_3" defaultValue="?" value="00" isToken="True" mutable="True" valueType="hex"/>
+                <String name="DataModelElement_4" defaultValue="?" value="08" isToken="False" mutable="True" valueType="hex"/>
+                <String name="DataModelElement_5" defaultValue="?" value="00" isToken="True" mutable="True" valueType="hex"/>
+                <String name="DataModelElement_6" defaultValue="?" value="03" isToken="False" mutable="True" valueType="hex"/>
+                <String name="DataModelElement_7" defaultValue="?" value="00" isToken="True" mutable="True" valueType="hex"/>
+                <String name="DataModelElement_8" defaultValue="" value="" isToken="False" mutable="True" valueType="hex"/>
+                <String name="DataModelElement_9" defaultValue="?" value="00" isToken="True" mutable="True" valueType="hex"/>
+                <String name="DataModelElement_10" defaultValue="" value="" isToken="False" mutable="True" valueType="hex"/>
+                <String name="DataModelElement_11" defaultValue="?" value="00" isToken="True" mutable="True" valueType="hex"/>
+                <String name="DataModelElement_12" defaultValue="" value="" isToken="False" mutable="True" valueType="hex"/>
+            </Block>
+        </Block>
+    </DataModel>
+    <DataModel name="HotFuzzDataModel_1">
+        <Block defaultValue="????" name="tpkt">
+            <Number name="tpkt_version" defaultValue="?" value="03" isToken="False" mutable="False" valueType="hex"/>
+            <Number name="tpkt_reserved" defaultValue="?" value="00" isToken="False" mutable="False" valueType="hex"/>
+            <Number name="tpkt_length" defaultValue="??" value="0013" isToken="False" mutable="False" valueType="hex"/>
+        </Block>
+        <Block defaultValue="????4?????????" name="x224">
+            <Number name="x224_length" defaultValue="?" value="0e" isToken="False" mutable="False" valueType="hex"/>
+            <Number name="x224_code" defaultValue="" value="d0" isToken="False" mutable="False" valueType="hex"/>
+            <Number name="x224_dst_ref" defaultValue="??" value="0000" isToken="False" mutable="False" valueType="hex"/>
+            <Number name="x224_src_ref" defaultValue="?4" value="1234" isToken="False" mutable="False" valueType="hex"/>
+            <Number name="x224_class" defaultValue="?" value="00" isToken="False" mutable="False" valueType="hex"/>
+            <String name="DataModelElement_1" defaultValue="????????" value="0201080002000000" isToken="True" mutable="False" valueType="hex"/>
+        </Block>
+    </DataModel>
+    <DataModel name="HotFuzzDataModel_2">
+        <Blob name="tpkt" defaultValue="????z???v??Q?AgL;?f1&#10;~G?????/?5???&#10;??&#9;&#10;?2?8???????5?????????????172.17.100.122??????????&#10;??????????????" value="160301007a01000076030151144167b24cfff2a03bdf038a669fe631cb0ae9e6f0cb7eba96df9947cb3fd9000018002f00350005000ac013c014c009c00a003200380013000401000035ff0100010000000013001100000e3137322e31372e3130302e313232000500050100000000000a0006000400170018000b00020100" isToken="False" mutable="True" valueType="hex"/>
+    </DataModel>
+    <DataModel name="HotFuzzDataModel_3">
+        <Blob name="tpkt" defaultValue="????E???M??Q?Ag_FR?O(?.?[znc%W q&quot;??[$E1U^HF??.?^???/??????????????0?0???????Iq&gt;O&quot;h?5/&gt;0&#13;?&#9;*H&#13;?????0?1?0???U????WIN-VO5J3AT5ASI0??&#13;130206212935Z?&#13;130808212935Z0?1?0???U????WIN-VO5J3AT5ASI0?&quot;0&#13;?&#9;*H&#13;?????????0?&#10;????yEha/(cJIPho%?1?BC????*1?\#?fOC??gv?_=??MbnC%asU,u;&#9;?9&quot;/5??J(? 35??{?0,:&lt;??y??o?2?6qgb^;6_%?t-Z?TZ {? %U?=?H?:LJg]h;ju?6&quot;?t\T.???.!)C?&quot;?????$0&quot;0???U?%??0&#10;??+???????0???U???????00&#13;?&#9;*H&#13;?????????&amp;]M?jxpzrb&#10;rfPg&quot;Z?Q?,'e'&#10;&#13;\f1n`Ckb+:}Ls1,??? n|Y ?b&#13;{P#?WT,nbjK`C@?|HI?&#13;?&#13;YZG{D?W_U?ayRxD o??} d??zsk [^xN^???XQ?3L?j3?????" value="16030103450200004d030151144167a05f46fead52e4ac3f4f97ebd928eeff05e52e1e5b7a6ec563e2255720712200005b2445a8ada99489f231f3df555e4846cb0fc73f2e1f5e1df603a9ea002f000005ff010001000b0002ec0002e90002e6308202e2308201caa003020102021049d5713effd7ed894f22681235ae2f3e300d06092a864886f70d0101050500301a311830160603550403130f57494e2d564f354a33415435415349301e170d3133303230363231323933355a170d3133303830383231323933355a301a311830160603550403130f57494e2d564f354a3341543541534930820122300d06092a864886f70d01010105000382010f003082010a02820101009c7945dc68a4612f2863f28b4a4950686fa025d9cb8c1931d20c4243920eee3fd1d9020ce32a31065cba230466ef9cbe4f43b7168b1aa267f68a7601b45f3d9714c89305aa4dd89eba626eba43c425a36173fafc55b8902cc1753b0906bf39222ff935d5070b4a28e28e7fba81ac1aa720f53335e1848107137bdde60530c8dcebb4af2cfd3a3c0e0579b5ae02106fa719320b36f971bef267625e3bc1cf36f5e9b783ec92efe65f93258b169b74c22d5ad5a708545adc20b8b17bc8c880fc01208025559c17f7f53da01d480c993a4c4a99675d68c1bac5f1cf3b9fbe929b6a7503a3ddf8ab362204745c9f54f72e119aff0bcb182e212943dc1dd1df8c228f0203010001a324302230130603551d25040c300a06082b06010505070301300b0603551d0f040403020430300d06092a864886f70d0101050500038201010026ee5dc2e54d8010fdc7a58f6a7870bdb67a72be620ab1e2d6e372f1f16650ee67e2b122ba5af4f6a201a8baba51112c2765270a9fd80dbc5cc966b031b36e60436b8b96f592c7622ba73aace97da88fddd897d3b98b4c7331bf2cc6bc1eec1ae915208dc56ecf85b499d195eba27c59200ca462dbb90d8ac27b50afd7f0aafcf223c30cd8f3adfdc4ef57ed542c6e62f7e2bf6a4bc760f8438f4005817cf84849d01c0dd18a0f0da359b05a47c57bb5441c579e5f550c61dc79528e7844b320df94ed6fbe189214fd7df020cf64e1fd8ca6f203cae7d71a7af7d0736b81205bc65e8a78a54e885e003f1d58c9f751aebc008acdbc33efc0b34c1384e96a33140e000000" isToken="False" mutable="False" valueType="hex"/>
+    </DataModel>
+    <DataModel name="HotFuzzDataModel_4">
+        <Blob name="tpkt" defaultValue="???????????5&lt;?6&#9;=8D$?!?4?Xd`,?/?2?o?[5?&#10;?k)#?M??? ?&quot;w\)LR**&amp;3wwQI9r&gt;Y??[9Ej'LwAoj?j_Rib?G??\F;V?z?I?%!=?&lt;8T]?[`&gt;H?mX9&lt;?Jc^j(m%O?/x??Y?D???????????0Ho?Yz??T5(saUu?i01:j?2?0" value="160301010610000102010035b8b4bc3c1d36093ddb3844240021c5b8e798820b349904ddb4d4f8d1d158a564602ca8e3a7d4062fcfece00cdee7c632e617996f0cb05b8935af07e5840aea006bc6aa9229bb23144d008002fb0020ffdefbbc0bb42277efa5fdfd5c294cfe522adf2afeab86e32633cb77f0779eb7f451493981fbc472f43e8cd059c20b9eebeef7f882add791c3075b39dd459a6a274c77b9416f896a196aecac5fc1ba9252a6e069a1ccc4621f47a71c105ce0a246873b56177afee8ca0049f81225213da80c933c8595939d9638548b9f5d1aa1c2cd5b607f3e48146dfeefde58393cda8a0c4af7f7ee635e6a84286dc625a9c64fc5042fb2d2780f1359049b44a33fbf1403010001011603010030486f028c598c827ac2b2b6d31208cb9d543528ce8ecf8f7361af55a3751769a530a795313a946ac50498a9d9320b30b2" isToken="False" mutable="True" valueType="hex"/>
+    </DataModel>
+    <DataModel name="HotFuzzDataModel_5">
+        <Blob name="tpkt" defaultValue="??????????0z?v.&#13;[4~y?eT_?bU\G?Pb&#10;?@w" value="14030100010116030100307a05ee762e0db0e6dcac5b9fc3a3efea347e790c6554d95f1462555c47d601a7b6ea9d50b6aa62b8ad0acab403d84077" isToken="False" mutable="False" valueType="hex"/>
+    </DataModel>
+    <DataModel name="HotFuzzDataModel_6">
+        <Blob name="tpkt" defaultValue="????PhLw&lt;\MGS?0????`C&#9;wbD1(?????l&quot;?5?jx&#10;??_NS" value="17030100509568a14ccd77cb3c8098a6d95cc8ddee934d47b053e50f9e300c8b02081f604395097762c8448031f528e710b6bbea0b061fc3e505ad6ca9d1229f1835a416ac6ab0788d0a03b114ef5fdfbc4e91ce53" isToken="False" mutable="True" valueType="hex"/>
+    </DataModel>
+    <DataModel name="HotFuzzDataModel_7">
+        <Blob name="tpkt" defaultValue="???? vw?PTM-&#9;0[5W?Z???v?w.e^?tbex_2?Etu??\H,Y?W4RlnZ^q?&quot;????&#9;?yKXzYn$_?i???rYL???&lt;q[D~?g:9?Z*!&quot;?ER?&lt;2oqW|/?q+??.@?N`fy?^9ms?I?B5K&amp;6N/h?+?c?&quot;?v?*??H&lt;G1??j" value="1703010120767713ab98d050544d2d09fa305baf35e357d0005a7f05f48998b7baa1071d819fd8a77608c377cc2eb1655ef38118ba92c374da62a58765e0785f973215f84574751f04d95c482ca759d61457913498cf9b526c6eb896af5a5ee5b0a7a1711422aeffac151dafa6d91c13c409cc04c6a2d0794b587ad0fde4596edcb3f324e9b2e95f018a69e41902ae1e92f372594cf20290038dbb1a3cd7aedadeb3715b447ee11e673ab339e50f5a2ac7ca8d8421c622df88f5014552fadb163ccb326fe071d7bb577cb02f1071a9b0c42bbfe2180e2e4012fade8c4ea3acfdde60cdd166791c5e39d26da6eef3dd731c49dd0ceced42354b26364e2f68b8102b8b1663142208b776d49d1f2a8ef8b40597d3b619488fcbc33ca5eca247ea31a71a16866a" isToken="False" mutable="False" valueType="hex"/>
+    </DataModel>
+    <DataModel name="HotFuzzDataModel_8">
+        <Blob name="tpkt" defaultValue="????p\+B&amp;??|C?c?1)]zkpFg.G?&gt;qQwzrk%X??&#10;8kN&gt;ND`~o$`:5SQ;?)t?.-&quot;qf^?2'N??4?$?q+N:r3k[?&quot;&#9;7?$?p!vK?~btx?6'{=???$N?g?V&#13;x]?T&quot;?Q?=)?i*_H&quot;2tW&amp;{A?qgi:??7?]E??SIr?3[??R??T`mMe&#13;?{G_GjMBwH?Cw?)#=6??&gt;?2?K??o?&#13;xaPBfW?XD??Ad?]kD&#10;cmxa?LG`DR??ev9%?FYT'tg:?qn?&amp;*N?%([?{K?N:? ?~Lz?Kl^)?KCS.myQXO9K$f!6?Ci$?^(o?5T?O??7YIx\?Xo.?C`px&amp;V1_Xg0P??G??\v]{yn?&lt;.qi&gt;'/s??$f?&quot;??u]F.???&lt;?$}-Xj+fJM.??&quot;-&gt;6RBF??;?3dr??yE6?SC&quot;?2~??x|Rr\?&amp;':U?j]X??}G?om5?/tF?^%s??Vv|" value="1703010370f5b75c2bde4226c50e02e37c43c7cba00063a0adae14919cb7b1f73198295d7a9e6bcc704667ee9e2e824710cfd53e7151dfdecfd6c577c3db7ae9726bac9725589c901b07b2ed9e0adbf4b938b06b98a44edea3ea87d0818d3edf4e44608d7e6fdcb4a824f160fb993afe35b0d4c453513bfacf88fc06c0e48f297407cac4b82ee99d2d97229cb5719dd866f795f85e06d08532274e191834f6c1c1d818241071e62ba38f4e3aca72dfcb96b533e86bc7915b0c220937e3dbe103e1c22487f10670dde121c476aee4944bc0c9bc1ee6f27e62a774781a36277b3d01c7caef169ada1e248ffd4e11addecb671a560d785d3f9b5422d38800bf51d81c3d29ba8711af69adfcb9c32ac6e15f48fb2299ff32b1ff74f157267b41b31571b5bcc467693af6d2bebdc815c117fb37c507d9fba5c6c55d8745b905bc14534972a717335b071452840fb01154606d95da4d8e82e5d8650d0c7ba347fab5ace9e29edcb95f476abe4db042b677a5ffb7488cfa3faee792a5f443b0f0acdb96c7771529a723e53d361212ea3ebad0f6ac8e9df8023200f94bbea91004966fc805870dc0807861c45042a466570758f94404940341ab9564185dfc6bbe449d0a636d7861e2f1df9f194c47ac8e608544520becff1d6589dec088a7b4c1763925bbdb1a4659c55427a0f0e785c0e0edfc74673a821bcde971998481a56edc0326c42a4eb0ced4ff831ceb25285bed07947b4b1b4e3a8df39406208204d07e4c7a13fe4b8e6c5e290f874bd4439753eea68c2e6d79b451d4aeaf9358f8d84fa39439a7e24b2466d821e8363f4369cbe824aeb5bae9015ea0289b6f18c3bc3580d3dfb1e554bd9f044f0208375949f89a785c889aec029e586f88c52e08436070fd83e778d926c956dff5ce315f5867e58f30501b0b477fef8212075cce765d7bc4796e1d3c2ea071dbc7efc7f869e482893e272f8fe3d8730c9cc9102466999fc9f4d2a7e7078dcb22dcb5079b07755d46fc2eb6033f3f3c0efdedcf24fdfefbed7d2d586afc2b93b897664ab54d2ee6f508b9198c222dcf3eb236d4b152428746fe1d1e3b0033a56472cef019179379f645361153b44322dc0832f07e060078907c52b072c198eeb75c02d5a3bac7a626f0273ad8558e1ebd8c6aba5d58d2bcbf04baf51fbaf17d4793e28fdb1ebd6fe06df5358a012f94babb7446fbafeae2f916e4ec8b5e2573151e90c4de56e7c8cbfed576f37c" isToken="False" mutable="True" valueType="hex"/>
+    </DataModel>
+    <DataModel name="HotFuzzDataModel_9">
+        <Blob name="tpkt" defaultValue="???? Jbvr\#?z?wER)tp." value="1503010020c24a627672e9975ce7238dd5ba06e6a0be7a14b682e277a4f145522974702ef1" isToken="False" mutable="False" valueType="hex"/>
+    </DataModel>
+    <StateModel name="HotStateModel" initialState="Initial">
+        <State name="Initial">
+            <Action type="output" name="Named_43">
+                <DataModel ref="HotFuzzDataModel_0"/>
+            </Action>
+            <Action type="output" name="Named_45">
+                <DataModel ref="HotFuzzDataModel_2"/>
+            </Action>
+            <Action type="output" name="Named_47">
+                <DataModel ref="HotFuzzDataModel_4"/>
+            </Action>
+            <Action type="output" name="Named_49">
+                <DataModel ref="HotFuzzDataModel_6"/>
+            </Action>
+            <Action type="output" name="Named_51">
+                <DataModel ref="HotFuzzDataModel_8"/>
+            </Action>
+            <Action type="close" name="Named_53"/>
+        </State>
+    </StateModel>
+    <Test name="HotTest">
+        <StateModel ref="HotStateModel"/>
+		<Publisher class="tcp.Tcp">
+			<Param name="Host" value="172.17.100.2" />
+			<Param name="Port" value="3389" />
+		</Publisher>		
+    </Test>
+    <Run name="DefaultRun">
+        <Logger class="logger.Filesystem">
+            <Param name="path" value="C:/code/fuzzers/peach2/"/>
+        </Logger>
+        <Test ref="HotTest"/>
+    </Run>
+</Peach>
