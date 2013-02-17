@@ -48,7 +48,64 @@
 		<Mutator class="string.UnicodeUtf8ThreeCharMutator" /> -->
 		<Mutator class="string.ValidValuesMutator" />
 	</Mutators>	
-	
+
+	<!--  Ethernet-->
+	<DataModel name="Eth">
+		<Block name="eth_dst">
+			<Blob name="eth_addr" valueType="hex" value="000000000000" /> <!-- Change this to your client MAC addr -->
+			<Blob name="eth_ig" valueType="hex" value="1" />
+		</Block>
+		<Block name="eth_src">
+			<Blob name="eth_addr" valueType="hex" value="ffffffffffff" /> <!-- Change this if you run more than one DHCP server -->
+			<Blob name="eth_ig" valueType="hex" value="0" />
+		</Block>
+		<Number name="eth_type" size="16" valueType="hex" value="0800" signed="false" />
+	</DataModel>
+	<!-- IP -->
+	<DataModel name="Ip">
+		<Number name="ip_version" size="8" valueType="hex" value="45" signed="false" />
+		<Block name="ip_dsfield">
+			<Flags name="ip_dsfield" size="8">
+				<Flag name="ip_dsfield_dscp" position="0" size="6" />
+				<Flag name="ip_dsfield_ecn" position="6" size="2" />
+			</Flags>
+		</Block>
+		<Number name="ip_len" size="16" valueType="hex" value="0148" signed="true" endian="big" />
+		<Number name="ip_id" size="16" valueType="hex" value="0000" signed="false" />
+		<Block name="ip_flags">
+			<Flags name="ip_flags" size="4">
+				<Flag name="ip_flags_rb" position="0" size="1" />
+				<Flag name="ip_flags_df" position="1" size="1" />
+				<Flag name="ip_flags_mf" position="2" size="1" />
+			</Flags>
+		</Block>
+		<Number name="ip_frag_offset" size="16" valueType="hex" value="0000" signed="false" />
+		<Number name="ip_ttl" size="8" valueType="hex" value="80" signed="false" />
+		<Number name="ip_proto" size="8" valueType="hex" value="11" signed="false" />
+		<!-- 
+		Commenting this out so a new checksum is generated for each packet
+		<Block name="ip_checksum">
+			<Number name="ip_checksum_good" size="16" valueType="hex" value="3996" signed="false" endian="big" /> 
+		</Block> -->
+		<String name="ip_src" value="0.0.0.0"> <!-- Change this if you run more than one DHCP server -->
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="ip_dst" value="255.255.255.255"> <!-- Change this if you run more than one DHCP server -->
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+	</DataModel>
+	<!-- UDP -->
+	<DataModel name="Udp">
+		<Number name="udp_srcport" size="16" valueType="hex" value="0044" signed="true" endian="big" />
+		<Number name="udp_dstport" size="16" valueType="hex" value="0043" signed="true" endian="big" />
+		<Number name="udp_port" size="16" valueType="hex" value="0044" signed="true" endian="big" />
+		<Number name="udp_port" size="16" valueType="hex" value="0043" signed="true" endian="big" />
+		<Number name="udp_length" size="16" valueType="hex" value="0134" signed="true" endian="big" />
+		<Block name="udp_checksum">
+			<Number name="udp_checksum_good" size="16" valueType="hex" value="b040" signed="false" endian="big" />
+		</Block>
+	</DataModel>	
+	<!-- DHCP -->
 	<DataModel name="discover">
 		<Number name="bootp_type" size="8" valueType="hex" value="01" signed="false" />
 		<Number name="bootp_hw_type" size="8" valueType="hex" value="01" signed="false" />
@@ -76,7 +133,7 @@
 		<String name="bootp_ip_relay" value="0.0.0.0">
 			<Transformer class="encode.Ipv4StringToNetworkOctet" />
 		</String>
-		<Blob name="bootp_hw_mac_addr" valueType="hex" value="000c29db505e" />
+		<Blob name="bootp_hw_mac_addr" valueType="hex" value="000000000000" /> <!-- Change this to your client MAC addr -->
 		<String name="bootp_hw_addr_padding" type="wchar" length="5" valueType="hex" value="00000000000000000000" />
 		<String name="bootp_server" type="wchar" length="32" valueType="hex" value="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
 		<String name="bootp_file" type="wchar" length="64" valueType="hex" value="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
@@ -234,12 +291,21 @@
 	</DataModel>
 	
 	<DataModel name="dhcpdiscover">
+		<Block ref="Eth" />
+		<Block ref="Ip" />
+		<Block ref="Udp" />
 		<Block ref="discover" />
 	</DataModel>
 	<DataModel name="dhcprequest">
+		<Block ref="Eth" />
+		<Block ref="Ip" />
+		<Block ref="Udp" />
 		<Block ref="request" />
 	</DataModel>
 	<DataModel name="dhcpquery">
+		<Block ref="Eth" />
+		<Block ref="Ip" />
+		<Block ref="Udp" />
 		<Block ref="query" />
 	</DataModel>
 	
@@ -260,7 +326,7 @@
 	<Test name="DHCPdown">
 		<StateModel ref="State"/>
 		<Publisher class="udp.Udp">
-			<Param name="Host" value="172.17.100.102" />
+			<Param name="Host" value="255.255.255.255" /> <!-- Change this if your running more than one DHCP server -->
 			<Param name="Port" value="67" />
 		</Publisher>
 	</Test>
